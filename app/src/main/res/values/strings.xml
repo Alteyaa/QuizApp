@@ -3,4 +3,8 @@
 
     <string name="start">Start</string>
 
+    <string-array name="categories">
+        <item>All</item>
+    </string-array>
+
 </resources>
