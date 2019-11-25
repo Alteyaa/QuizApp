@@ -8,14 +8,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.quizapp.R;
-import com.quizapp.model.Question;
+import com.quizapp.model.ShortQuizResult;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryViewHolder> {
 
-    private ArrayList<Question> mQuestions = new ArrayList<>();
+    private ArrayList<ShortQuizResult> mQuizResults = new ArrayList<>();
     HistoryViewHolder.HistoryViewHolderListener mListener;
 
 
@@ -23,25 +23,27 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryViewHolder> {
     @Override
     public HistoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_quiz, parent, false);
+                .inflate(R.layout.item_history, parent, false);
 
         return new HistoryViewHolder(view,mListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull HistoryViewHolder holder, int position) {
-
+        if (holder instanceof HistoryViewHolder) {
+            ((HistoryViewHolder) holder).onBind(mQuizResults.get(position));
+        }
     }
 
 
     @Override
     public int getItemCount() {
-        return mQuestions.size();
+        return mQuizResults.size();
     }
 
-    public void setQuestions(List<Question> questions) {
-        mQuestions.clear();
-        mQuestions.addAll(questions);
+    public void setQuestions(List<ShortQuizResult> quizResults) {
+        mQuizResults.clear();
+        mQuizResults.addAll(quizResults);
         notifyDataSetChanged();
     }
 }
