@@ -1,4 +1,4 @@
-package data;
+package com.quizapp.data;
 
 
 import android.util.Log;
@@ -8,8 +8,8 @@ import com.quizapp.model.Question;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import data.model.CategoriesGlobalResponse;
-import data.model.QuestionsResponse;
+import com.quizapp.data.model.CategoriesGlobalResponse;
+import com.quizapp.data.model.QuestionsResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,10 +43,13 @@ public class QuizRepository implements IQuizRepository {
     }
 
     @Override
-    public void getQuiz(final OnQuizCallback callback) {
+    public void getQuiz(Integer amount,
+                         Integer category,
+                         String difficulty,
+                         OnQuizCallback callback) {
         Call<QuestionsResponse> call = client.getQuestions(
-                10,
-                null,
+                amount,
+                category,
                 null
         );
 
@@ -64,7 +67,7 @@ public class QuizRepository implements IQuizRepository {
 
                         callback.onSuccess(response.body().getResults());
                     } else {
-                        callback.onFailure(new Exception("Remote data source not initialized"));
+                        callback.onFailure(new Exception("Remote com.quizapp.data source not initialized"));
                     }
                 } else {
                     callback.onFailure(new Exception("Request failed: " + response.code()));
@@ -83,7 +86,7 @@ public class QuizRepository implements IQuizRepository {
     private interface TriviaNetworkClient {
         @GET("/api.php")
         Call<QuestionsResponse> getQuestions(
-                @Query("amount") int amount,
+                @Query("amount") Integer amount,
                 @Query("category") Integer category,
                 @Query("difficulty") String difficulty
         );

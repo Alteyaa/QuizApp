@@ -8,7 +8,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
+        android:background="#fff"
         app:elevation="0dp">
         <TextView
             android:theme="@style/TitleText"
@@ -20,8 +20,6 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        style="@style/GreyAccent"
-        android:theme="@style/GreyAccent"
         android:id="@+id/history_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

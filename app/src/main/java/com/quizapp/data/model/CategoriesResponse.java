@@ -1,4 +1,4 @@
-package data.model;
+package com.quizapp.data.model;
 
 import com.google.gson.annotations.SerializedName;
 import com.quizapp.model.Category;

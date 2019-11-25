@@ -11,7 +11,7 @@ import com.quizapp.model.Question;
 
 import java.util.List;
 
-import data.IQuizRepository;
+import com.quizapp.data.IQuizRepository;
 
 public class QuizViewModel extends ViewModel {
 
@@ -27,9 +27,18 @@ public class QuizViewModel extends ViewModel {
     void init(Integer amount, Integer categoryId, String difficulty) {
         currentQuestionPosition.setValue(0);
 
-        quizRepository.getQuiz(new IQuizRepository.OnQuizCallback() {
+        quizRepository.getQuiz(
+                amount,
+                categoryId,
+                difficulty,
+                new IQuizRepository.OnQuizCallback() {
             @Override
             public void onSuccess(List<Question> result) {
+                if (result.size() != 0){
+
+                    Log.d("ololo", "onSuccess: " + result.size());
+                    Log.d("ololo", "onSuccess: " + result.get(0).getCategory());
+                }
                 mQuestions = result;
                 questions.setValue(mQuestions);
             }

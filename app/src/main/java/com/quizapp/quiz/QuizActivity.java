@@ -29,11 +29,13 @@ public class QuizActivity extends AppCompatActivity
     private RecyclerView mRecycler;
 
     private final static String EXTRA_AMOUNT = "amount";
+    private final static String EXTRA_CATEGORY = "category";
     private final static String EXTRA_DIFFICULTY = "difficulty";
 
-    public static void start(Context context, int amount, String difficulty) {
+    public static void start(Context context, int amount, int category, String difficulty) {
         Intent intent = new Intent(context, QuizActivity.class);
         intent.putExtra(EXTRA_AMOUNT, amount);
+        intent.putExtra(EXTRA_CATEGORY,category);
         intent.putExtra(EXTRA_DIFFICULTY, difficulty);
         context.startActivity(intent);
     }
@@ -51,18 +53,27 @@ public class QuizActivity extends AppCompatActivity
 
         mViewModel.questions.observe(this, questions -> {
             Log.d("ololo", "Questions size " + questions.size());
+            TextView view = findViewById(R.id.quiz_title);
+            view.setText(questions.get(0).getCategory());
             mAdapter.setQuestions(questions);
         });
 
         mViewModel.currentQuestionPosition.observe(this, position -> {
             Log.d("ololo", "Current position " + position);
+            mProgressText.setText(position + 1 + "/" + mAdapter.getItemCount());
+            mProgress.setProgress(position + 1);
+            mRecycler.smoothScrollToPosition(position + 1);
+
+
         });
 
         mViewModel.finishEvent.observe(this, aVoid -> finish());
 
         int amount = getIntent().getIntExtra(EXTRA_AMOUNT, 5);
+        int category = getIntent().getIntExtra(EXTRA_CATEGORY,0);
         String difficulty = getIntent().getStringExtra(EXTRA_DIFFICULTY);
-        mViewModel.init(amount, 0, difficulty);
+
+        mViewModel.init(amount,category, difficulty);
     }
 
     private void initView() {
@@ -104,7 +115,6 @@ public class QuizActivity extends AppCompatActivity
         //Prevent user touch scroll
         mRecycler.setOnTouchListener((v, event) -> true);
     }
-
 
     @Override
     public void onAnswerClick(int questionPosition, int answerPosition) {

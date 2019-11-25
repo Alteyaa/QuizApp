@@ -1,4 +1,4 @@
-package data.model;
+package com.quizapp.data.model;
 
 
 import com.quizapp.model.CategoryQuestionsCount;
